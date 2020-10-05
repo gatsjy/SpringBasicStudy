@@ -2,8 +2,11 @@ package hello.core.singleton;
 
 import hello.core.AppConfig;
 import hello.core.member.MemberService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -58,5 +61,23 @@ public class SingletonTest {
         // - 테스트하기 어렵다.
         // - 내부 속성을 변경하거나 초기화 하기 어렵다.
         // - private 생성자로 자식 클래스를 만들기 어렵다.
+    }
+    
+    @Test
+    @DisplayName("스프링 컨테이너와 싱글톤")
+    void springContainer(){
+        ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        // 1. 조회할 때 마다 객체를 생성
+        MemberService memberService1 = ac.getBean("memberService", MemberService.class);
+
+        // 2. 조회할 때 마다 객체를 생성
+        MemberService memberService2 = ac.getBean("memberService", MemberService.class);
+        
+        // 참조 값이 같은 것을 확인
+        System.out.println(memberService1);
+        System.out.println(memberService2);
+
+        Assertions.assertThat(memberService1).isSameAs(memberService2);
     }
 }
