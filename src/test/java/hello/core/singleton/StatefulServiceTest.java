@@ -35,7 +35,7 @@ class StatefulServiceTest {
         System.out.println(price);
         System.out.println(userAPrice);
 
-        org.assertj.core.api.Assertions.assertThat(statefulService1.getPrice()).isEqualTo(20000);
+        org.assertj.core.api.Assertions.assertThat(statefulService1.getPrice()).isEqualTo(0);
         org.assertj.core.api.Assertions.assertThat(userBPrice).isEqualTo(20000);
 
     }
