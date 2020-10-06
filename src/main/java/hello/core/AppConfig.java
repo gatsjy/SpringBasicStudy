@@ -28,7 +28,7 @@ public class AppConfig {
     @Bean
     public MemberService memberService(){
         System.out.println("call AppConfig.memberService");
-        return new MemberServiceImpl(memberRepository());
+        return new MemberServiceImpl(memberRepository());     // 기존의 AppConfig에서는 의존관계 주입을 명시해 놓았다.
     }
 
     // 생성자를 통해서 주입

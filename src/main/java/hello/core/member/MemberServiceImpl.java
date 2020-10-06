@@ -1,5 +1,9 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class MemberServiceImpl implements MemberService{
 
     // 여기서는 구체적인 MemoryMemberRepository를 의존한다. 이는 dip에 대한 위반이다.
@@ -8,6 +12,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     // 생성자를 통해서 어떤 MemberRepository를 생성할지를 결정한다.
+    @Autowired // ac.getBean(MemberRepository.class)
     public MemberServiceImpl(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
