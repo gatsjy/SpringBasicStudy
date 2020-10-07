@@ -19,11 +19,17 @@ public class OrderServiceImpl implements OrderService {
     // "누군가" 대신 이 인터페이스를 구체화 시켜줘야한다...
     // private DiscountPolicy discountPolicy = new FixDiscountPolicy(); // -> 구체적인 것 까지 선택해서는 안되는 것이다. (마치 배우가 배우까지 선택하는 꼴..)
     // 애플리케이션의 전체 동작 방식을 구성하는 구현객체를 생성해서 해결해야 한다.
-    private final MemberRepository memberRepository;
-    private final DiscountPolicy discountPolicy; // -> 구체적인 것 까지 선택해서는 안되는 것이다.
+    private MemberRepository memberRepository;
+    private DiscountPolicy discountPolicy; // -> 구체적인 것 까지 선택해서는 안되는 것이다.
 
-    @Autowired // 생성자 위에다가 Autowired를 선언해준다.
+    @Autowired // 생성자 위에다가 Autowired를 선언해준다. -> 생성자가 하나면 자동으로 Autowired가 선언된다.
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
+
+    @Autowired
+    public void init(MemberRepository memberRepository, DiscountPolicy discountPolicy){
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
