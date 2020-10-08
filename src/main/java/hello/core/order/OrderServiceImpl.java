@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     // private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
@@ -25,11 +24,11 @@ public class OrderServiceImpl implements OrderService {
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy; // -> 구체적인 것 까지 선택해서는 안되는 것이다.
 
-   // @Autowired // 생성자 위에다가 Autowired를 선언해준다. -> 생성자가 하나면 자동으로 Autowired가 선언된다.
-   // public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-   //     this.memberRepository = memberRepository;
-   //     this.discountPolicy = discountPolicy;
-   // }
+    @Autowired // 생성자 위에다가 Autowired를 선언해준다. -> 생성자가 하나면 자동으로 Autowired가 선언된다.
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
