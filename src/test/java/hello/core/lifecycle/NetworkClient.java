@@ -1,5 +1,8 @@
 package hello.core.lifecycle;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 /**
  * @author Gatsjy
  * @since 2020-10-10
@@ -40,6 +43,7 @@ public class NetworkClient {
 
     // 의존관계 주입이 끝나면 호출하도록 하겠다.
     // 이는 스프링에 의존적으로 써야 한다.
+    @PostConstruct
     public void init() {
         System.out.println("NetworkClient.init");
         connect();
@@ -48,6 +52,10 @@ public class NetworkClient {
 
     // 빈이 종료될때 호출된다.
     // 추론해서 close나 shutdown이라는 이름의 메서드가 있으면 자동으로 호출해준다.
+    // 외부라이브러리에 적용을 못한다 -> 왜냐하면 코드를 수정해야하기 때문이다.
+    // @PreDestroy와 @PostConstruct를 사용하자 -> 이것이 자바 표준
+    // 코드를 고칠 수 없는 외부 라이브러리를 초기화, 종료햐야한다면.. initMethod 를 사용하자
+    @PreDestroy
     public void close() {
         System.out.println("NetworkClient.close");
         disconnect();
