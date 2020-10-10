@@ -1,8 +1,5 @@
 package hello.core.lifecycle;
 
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
-
 /**
  * @author Gatsjy
  * @since 2020-10-10
@@ -13,7 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 // 생성자는 필수 정보(파라미터)를 받고, 메모리에 살항해서 객체를 생성하는 책임을 가진다. 반면에 초기화는 이렇게 생성된 값들을 활용해서 외부 커넥션을 연결하는등 무거운 동작을 수행한다.
 // 따라서 생성자 안에서 무거운 초기화 작업을 하는 것보다는 객체를 생성하는 부분과 초기화 하는 부분을 명확하게 나누는 것이 유지보수 관점에서 더 좋다.
 // 물론 초기화 작업이 내부 값들만 약간 변경하는 정도로 단순한 경우에는 생성자에서 한번에 다 처리하는게 더 나을 수 있다.
-public class NetworkClient implements InitializingBean, DisposableBean {
+public class NetworkClient {
 
     private String url;
 
@@ -43,17 +40,16 @@ public class NetworkClient implements InitializingBean, DisposableBean {
 
     // 의존관계 주입이 끝나면 호출하도록 하겠다.
     // 이는 스프링에 의존적으로 써야 한다.
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("NetworkClient.afterPropertiesSet");
+    public void init() {
+        System.out.println("NetworkClient.init");
         connect();
         call("초기화 연결 메세지");
     }
 
     // 빈이 종료될때 호출된다.
-    @Override
-    public void destroy() throws Exception {
-        System.out.println("NetworkClient.destroy");
+    // 추론해서 close나 shutdown이라는 이름의 메서드가 있으면 자동으로 호출해준다.
+    public void close() {
+        System.out.println("NetworkClient.close");
         disconnect();
     }
 }
